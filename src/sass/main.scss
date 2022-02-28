@@ -7,9 +7,12 @@
 @import 'base/reset';
 @import 'base/typography';
 
+// Components
+
 // Layout
 @import 'layout/grid';
 @import 'layout/header';
+@import 'layout/board';
 
 // Pages
 @import 'pages/home';
