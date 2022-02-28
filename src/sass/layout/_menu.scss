@@ -1,0 +1,9 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2rem;
+  color: $color-grey-dark;
+  padding-top: 10rem;
+  width: 22%;
+}

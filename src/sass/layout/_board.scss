@@ -1,9 +1,18 @@
+.section-board {
+  display: flex;
+  position: relative;
+  height: 90vh;
+}
+
 .sketch-board {
   display: grid;
   grid-template-columns: repeat(16, 1fr);
   justify-content: center;
-  margin: 0 auto;
   width: 45rem;
   height: 45rem;
   border: 2px solid black;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
 }

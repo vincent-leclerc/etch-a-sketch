@@ -8,11 +8,13 @@
 @import 'base/typography';
 
 // Components
+@import 'components/button';
 
 // Layout
 @import 'layout/grid';
 @import 'layout/header';
 @import 'layout/board';
+@import 'layout/menu';
 
 // Pages
 @import 'pages/home';
