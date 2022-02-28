@@ -1,11 +1,11 @@
 body {
-  font-family: 'Nunito', sans-serif;
-  font-size: 1.6rem;
+  font-family: $font-primary;
+  font-size: $defaut-font-size;
 }
 
 .header {
   &__title {
-    font-family: 'Permanent Marker', cursive;
+    font-family: $font-secondary;
     font-size: 6rem;
     letter-spacing: 0.8rem;
     color: $color-grey-dark;
