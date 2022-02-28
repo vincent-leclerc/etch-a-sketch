@@ -1,3 +1,5 @@
+$color-grey-dark: #111827;
+
 *,
 *::before,
 *::after {
@@ -9,8 +11,4 @@
 html {
   font-size: 62.5%;
   box-sizing: border-box;
-}
-
-body {
-  font-size: 1.6rem;
 }
