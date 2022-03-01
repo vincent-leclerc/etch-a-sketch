@@ -1,12 +1,37 @@
+const DEFAULT_SIZE = 16;
+const DEFAULT_COLOR = 'black';
+
 const $sketchBoard = document.querySelector('.sketch-board');
 
-const createBoard = gridNum => {
-  for (let i = 1; i <= gridNum * gridNum; i++) {
-    const gridEl = document.createElement('div');
-    gridEl.classList.add('sketch-board__item');
+let isDrawing = false;
 
-    $sketchBoard.append(gridEl);
+const draw = e => {
+  e.preventDefault();
+
+  if (e.type === 'mouseover' && !isDrawing) return;
+  e.target.style.backgroundColor = DEFAULT_COLOR;
+};
+
+const createBoard = size => {
+  for (let i = 1; i <= size * size; i++) {
+    const boardEL = document.createElement('div');
+    boardEL.classList.add('sketch-board__item');
+
+    boardEL.addEventListener('mouseover', draw);
+    boardEL.addEventListener('mousedown', draw);
+
+    $sketchBoard.append(boardEL);
   }
 };
 
-createBoard(16);
+window.addEventListener('mouseup', () => {
+  isDrawing = false;
+});
+
+window.addEventListener('mousedown', () => {
+  isDrawing = true;
+});
+
+window.onload = () => {
+  createBoard(DEFAULT_SIZE);
+};
