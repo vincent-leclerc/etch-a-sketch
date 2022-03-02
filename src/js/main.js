@@ -1,9 +1,11 @@
+// CONSTANTS
 const DEFAULT_SIZE = 16;
 const DEFAULT_BOARD_COLOR = 'white';
 const DEFAULT_DRAW_COLOR = 'black';
 const DRAW_MODE = 'draw';
 const ERASE_MODE = 'erase';
 
+// DOM ELEMENTS
 const $sketchBoard = document.querySelector('.sketch-board');
 const $btnClear = document.querySelector('.btn--clear');
 const $btnErase = document.querySelector('.btn--erase');
@@ -42,13 +44,13 @@ const eraseMode = () => {
 
 const createBoard = size => {
   for (let i = 1; i <= size * size; i++) {
-    const boardEL = document.createElement('div');
-    boardEL.classList.add('sketch-board__item');
+    const boardEl = document.createElement('div');
+    boardEl.classList.add('sketch-board__item');
 
-    boardEL.addEventListener('mouseover', etch);
-    boardEL.addEventListener('mousedown', etch);
+    boardEl.addEventListener('mouseover', etch);
+    boardEl.addEventListener('mousedown', etch);
 
-    $sketchBoard.append(boardEL);
+    $sketchBoard.append(boardEl);
   }
 };
 

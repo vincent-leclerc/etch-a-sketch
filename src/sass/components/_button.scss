@@ -8,6 +8,7 @@
   font-weight: 500;
   width: 20rem;
   transition: all 0.16s ease;
+  user-select: none;
 
   &:hover,
   &.active {
