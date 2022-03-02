@@ -9,12 +9,13 @@
   width: 20rem;
   transition: all 0.16s ease;
 
-  &:hover {
+  &:hover,
+  &.active {
     transform: translateY(-0.6rem);
     box-shadow: 0.5rem 0.5rem 1.2rem rgba(0, 0, 0, 0.25);
   }
 
-  &:active {
+  &.active {
     background-color: $color-grey-dark;
     color: $color-white;
   }

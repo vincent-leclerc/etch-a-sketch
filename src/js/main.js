@@ -1,17 +1,24 @@
 const DEFAULT_SIZE = 16;
 const DEFAULT_BOARD_COLOR = 'white';
 const DEFAULT_DRAW_COLOR = 'black';
+const DRAW_MODE = 'draw';
+const ERASE_MODE = 'erase';
 
 const $sketchBoard = document.querySelector('.sketch-board');
 const $btnClear = document.querySelector('.btn--clear');
+const $btnErase = document.querySelector('.btn--erase');
+const $btnDraw = document.querySelector('.btn--draw');
 
 let isDrawing = false;
+let currMode = DRAW_MODE;
 
-const draw = e => {
+const etch = (e, color = DEFAULT_DRAW_COLOR) => {
   e.preventDefault();
 
   if (e.type === 'mouseover' && !isDrawing) return;
-  e.target.style.backgroundColor = DEFAULT_DRAW_COLOR;
+
+  currMode === ERASE_MODE && (color = DEFAULT_BOARD_COLOR);
+  e.target.style.backgroundColor = color;
 };
 
 const clearBoard = () =>
@@ -19,19 +26,35 @@ const clearBoard = () =>
     child => (child.style.backgroundColor = DEFAULT_BOARD_COLOR)
   );
 
+const drawMode = () => {
+  currMode = DRAW_MODE;
+
+  $btnErase.classList.remove('active');
+  $btnDraw.classList.add('active');
+};
+
+const eraseMode = () => {
+  currMode = ERASE_MODE;
+
+  $btnDraw.classList.remove('active');
+  $btnErase.classList.add('active');
+};
+
 const createBoard = size => {
   for (let i = 1; i <= size * size; i++) {
     const boardEL = document.createElement('div');
     boardEL.classList.add('sketch-board__item');
 
-    boardEL.addEventListener('mouseover', draw);
-    boardEL.addEventListener('mousedown', draw);
+    boardEL.addEventListener('mouseover', etch);
+    boardEL.addEventListener('mousedown', etch);
 
     $sketchBoard.append(boardEL);
   }
 };
 
 $btnClear.addEventListener('click', clearBoard);
+$btnErase.addEventListener('click', eraseMode);
+$btnDraw.addEventListener('click', drawMode);
 
 window.addEventListener('mouseup', () => {
   isDrawing = false;
