@@ -3,13 +3,16 @@ const DEFAULT_SIZE = 16;
 const DEFAULT_BOARD_COLOR = 'white';
 const DEFAULT_DRAW_COLOR = 'black';
 const DRAW_MODE = 'draw';
-const ERASE_MODE = 'erase';
+const RAINBOW_MODE = 'rainbow';
+const ERASE_MODE = 'eraser';
 
 // DOM ELEMENTS
 const $sketchBoard = document.querySelector('.sketch-board');
-const $btnClear = document.querySelector('.btn--clear');
-const $btnErase = document.querySelector('.btn--erase');
+const $settingsButtons = document.querySelectorAll('.btn');
 const $btnDraw = document.querySelector('.btn--draw');
+const $btnRainbow = document.querySelector('.btn--rainbow');
+const $btnErase = document.querySelector('.btn--erase');
+const $btnClear = document.querySelector('.btn--clear');
 
 let isDrawing = false;
 let currMode = DRAW_MODE;
@@ -28,18 +31,22 @@ const clearBoard = () =>
     child => (child.style.backgroundColor = DEFAULT_BOARD_COLOR)
   );
 
-const drawMode = () => {
-  currMode = DRAW_MODE;
-
-  $btnErase.classList.remove('active');
-  $btnDraw.classList.add('active');
+const removeActiveClass = mode => {
+  $settingsButtons.forEach(btn => {
+    if (btn.dataset.setting !== mode && btn.classList.contains('active')) {
+      btn.classList.remove('active');
+    }
+  });
 };
 
-const eraseMode = () => {
-  currMode = ERASE_MODE;
+const changeMode = mode => {
+  currMode = mode;
 
-  $btnDraw.classList.remove('active');
-  $btnErase.classList.add('active');
+  removeActiveClass(currMode);
+
+  if (currMode === DRAW_MODE) $btnDraw.classList.add('active');
+  else if (currMode === RAINBOW_MODE) $btnRainbow.classList.add('active');
+  else if (currMode === ERASE_MODE) $btnErase.classList.add('active');
 };
 
 const createBoard = size => {
@@ -54,9 +61,10 @@ const createBoard = size => {
   }
 };
 
+$btnDraw.addEventListener('click', changeMode.bind(null, DRAW_MODE));
+$btnRainbow.addEventListener('click', changeMode.bind(null, RAINBOW_MODE));
+$btnErase.addEventListener('click', changeMode.bind(null, ERASE_MODE));
 $btnClear.addEventListener('click', clearBoard);
-$btnErase.addEventListener('click', eraseMode);
-$btnDraw.addEventListener('click', drawMode);
 
 window.addEventListener('mouseup', () => {
   isDrawing = false;
