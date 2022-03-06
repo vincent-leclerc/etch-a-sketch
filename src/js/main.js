@@ -2,7 +2,7 @@
 const DEFAULT_SIZE = 16;
 const DEFAULT_BOARD_COLOR = 'white';
 const DEFAULT_DRAW_COLOR = 'black';
-const DRAW_MODE = 'draw';
+const COLOR_MODE = 'color';
 const RAINBOW_MODE = 'rainbow';
 const ERASE_MODE = 'eraser';
 
@@ -15,7 +15,7 @@ const $btnErase = document.querySelector('.btn--erase');
 const $btnClear = document.querySelector('.btn--clear');
 
 let isDrawing = false;
-let currMode = DRAW_MODE;
+let currMode = COLOR_MODE;
 
 const etch = (e, color = DEFAULT_DRAW_COLOR) => {
   e.preventDefault();
@@ -46,7 +46,7 @@ const changeMode = mode => {
 
   removeActiveClass(currMode);
 
-  if (currMode === DRAW_MODE) $btnDraw.classList.add('active');
+  if (currMode === COLOR_MODE) $btnDraw.classList.add('active');
   else if (currMode === RAINBOW_MODE) $btnRainbow.classList.add('active');
   else if (currMode === ERASE_MODE) $btnErase.classList.add('active');
 };
@@ -79,7 +79,7 @@ const rainbowMode = () => {
   return rainbowColors[color];
 };
 
-$btnDraw.addEventListener('click', changeMode.bind(null, DRAW_MODE));
+$btnDraw.addEventListener('click', changeMode.bind(null, COLOR_MODE));
 $btnRainbow.addEventListener('click', changeMode.bind(null, RAINBOW_MODE));
 $btnErase.addEventListener('click', changeMode.bind(null, ERASE_MODE));
 $btnClear.addEventListener('click', clearBoard);
