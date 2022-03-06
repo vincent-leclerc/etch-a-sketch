@@ -22,7 +22,9 @@ const etch = (e, color = DEFAULT_DRAW_COLOR) => {
 
   if (e.type === 'mouseover' && !isDrawing) return;
 
-  currMode === ERASE_MODE && (color = DEFAULT_BOARD_COLOR);
+  if (currMode === RAINBOW_MODE) color = rainbowMode();
+  else if (currMode === ERASE_MODE) color = DEFAULT_BOARD_COLOR;
+
   e.target.style.backgroundColor = color;
 };
 
@@ -59,6 +61,22 @@ const createBoard = size => {
 
     $sketchBoard.append(boardEl);
   }
+};
+
+const rainbowMode = () => {
+  const rainbowColors = [
+    '#dc2626', //red
+    '#f97316', //orange
+    '#fbbf24', //yellow
+    '#4ade80', //green
+    '#3b82f6', //blue
+    '#8b5cf6', //violet
+    '#4338ca', //indigo
+  ];
+
+  const color = Math.floor(Math.random() * rainbowColors.length);
+
+  return rainbowColors[color];
 };
 
 $btnDraw.addEventListener('click', changeMode.bind(null, DRAW_MODE));
