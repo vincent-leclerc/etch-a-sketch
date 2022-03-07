@@ -15,9 +15,7 @@ const $btnErase = document.querySelector('.btn--erase');
 const $btnClear = document.querySelector('.btn--clear');
 const $colorPicker = document.querySelector('.btn--color-picker');
 
-let isDrawing = false;
-let currMode = COLOR_MODE;
-let currColor = DEFAULT_DRAW_COLOR;
+let isDrawing, currMode, currColor;
 
 const createBoard = size => {
   for (let i = 1; i <= size * size; i++) {
@@ -101,6 +99,11 @@ window.addEventListener('mousedown', () => {
   isDrawing = true;
 });
 
-window.onload = () => {
+const init = () => {
+  isDrawing = false;
+  currMode = COLOR_MODE;
+  currColor = DEFAULT_DRAW_COLOR;
+
   createBoard(DEFAULT_SIZE);
 };
+init();
