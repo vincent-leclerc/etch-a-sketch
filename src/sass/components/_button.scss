@@ -10,6 +10,11 @@
   transition: all 0.16s ease;
   user-select: none;
 
+  &--color-picker {
+    padding: 0;
+    width: 15rem;
+  }
+
   &:hover,
   &.active {
     transform: translateY(-0.6rem);

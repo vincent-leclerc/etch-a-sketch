@@ -1,7 +1,7 @@
 // CONSTANTS
 const DEFAULT_SIZE = 16;
-const DEFAULT_BOARD_COLOR = 'white';
-const DEFAULT_DRAW_COLOR = 'black';
+const DEFAULT_BOARD_COLOR = '#ffffff';
+const DEFAULT_DRAW_COLOR = '#000000';
 const COLOR_MODE = 'color';
 const RAINBOW_MODE = 'rainbow';
 const ERASE_MODE = 'eraser';
@@ -9,23 +9,26 @@ const ERASE_MODE = 'eraser';
 // DOM ELEMENTS
 const $sketchBoard = document.querySelector('.sketch-board');
 const $settingsButtons = document.querySelectorAll('.btn');
-const $btnDraw = document.querySelector('.btn--draw');
+const $btnColor = document.querySelector('.btn--draw');
 const $btnRainbow = document.querySelector('.btn--rainbow');
 const $btnErase = document.querySelector('.btn--erase');
 const $btnClear = document.querySelector('.btn--clear');
+const $colorPicker = document.querySelector('.btn--color-picker');
 
 let isDrawing = false;
 let currMode = COLOR_MODE;
+let currColor = DEFAULT_DRAW_COLOR;
 
-const etch = (e, color = DEFAULT_DRAW_COLOR) => {
-  e.preventDefault();
+const createBoard = size => {
+  for (let i = 1; i <= size * size; i++) {
+    const boardEl = document.createElement('div');
+    boardEl.classList.add('sketch-board__item');
 
-  if (e.type === 'mouseover' && !isDrawing) return;
+    boardEl.addEventListener('mouseover', etch);
+    boardEl.addEventListener('mousedown', etch);
 
-  if (currMode === RAINBOW_MODE) color = rainbowMode();
-  else if (currMode === ERASE_MODE) color = DEFAULT_BOARD_COLOR;
-
-  e.target.style.backgroundColor = color;
+    $sketchBoard.append(boardEl);
+  }
 };
 
 const clearBoard = () =>
@@ -41,29 +44,19 @@ const removeActiveClass = mode => {
   });
 };
 
-const changeMode = mode => {
+const setMode = mode => {
   currMode = mode;
 
   removeActiveClass(currMode);
 
-  if (currMode === COLOR_MODE) $btnDraw.classList.add('active');
+  if (currMode === COLOR_MODE) $btnColor.classList.add('active');
   else if (currMode === RAINBOW_MODE) $btnRainbow.classList.add('active');
   else if (currMode === ERASE_MODE) $btnErase.classList.add('active');
 };
 
-const createBoard = size => {
-  for (let i = 1; i <= size * size; i++) {
-    const boardEl = document.createElement('div');
-    boardEl.classList.add('sketch-board__item');
+const setColor = e => (currColor = e.target.value);
 
-    boardEl.addEventListener('mouseover', etch);
-    boardEl.addEventListener('mousedown', etch);
-
-    $sketchBoard.append(boardEl);
-  }
-};
-
-const rainbowMode = () => {
+const rainbowColor = () => {
   const rainbowColors = [
     '#dc2626', //red
     '#f97316', //orange
@@ -79,10 +72,26 @@ const rainbowMode = () => {
   return rainbowColors[color];
 };
 
-$btnDraw.addEventListener('click', changeMode.bind(null, COLOR_MODE));
-$btnRainbow.addEventListener('click', changeMode.bind(null, RAINBOW_MODE));
-$btnErase.addEventListener('click', changeMode.bind(null, ERASE_MODE));
+const etch = e => {
+  e.preventDefault();
+  const { type, target } = e;
+
+  if (type === 'mouseover' && !isDrawing) return;
+
+  if (currMode === RAINBOW_MODE) {
+    target.style.backgroundColor = rainbowColor();
+  } else if (currMode === ERASE_MODE) {
+    target.style.backgroundColor = DEFAULT_BOARD_COLOR;
+  } else if (currMode === COLOR_MODE) {
+    target.style.backgroundColor = currColor;
+  }
+};
+
+$btnColor.addEventListener('click', setMode.bind(null, COLOR_MODE));
+$btnRainbow.addEventListener('click', setMode.bind(null, RAINBOW_MODE));
+$btnErase.addEventListener('click', setMode.bind(null, ERASE_MODE));
 $btnClear.addEventListener('click', clearBoard);
+$colorPicker.addEventListener('input', setColor);
 
 window.addEventListener('mouseup', () => {
   isDrawing = false;
