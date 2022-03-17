@@ -73,21 +73,10 @@ const setMode = mode => {
 
 const setColor = e => (currColor = e.target.value);
 
-const rainbowColor = () => {
-  const rainbowColors = [
-    '#dc2626', //red
-    '#f97316', //orange
-    '#fbbf24', //yellow
-    '#4ade80', //green
-    '#3b82f6', //blue
-    '#8b5cf6', //violet
-    '#4338ca', //indigo
-  ];
+const randomRGBValue = () => Math.floor(Math.random() * 256);
 
-  const color = Math.floor(Math.random() * rainbowColors.length);
-
-  return rainbowColors[color];
-};
+const randomColor = () =>
+  `rgb(${randomRGBValue()}, ${randomRGBValue()}, ${randomRGBValue()})`;
 
 const etch = e => {
   e.preventDefault();
@@ -96,7 +85,7 @@ const etch = e => {
   if (type === 'mouseover' && !isDrawing) return;
 
   if (currMode === RAINBOW_MODE) {
-    target.style.backgroundColor = rainbowColor();
+    target.style.backgroundColor = randomColor();
   } else if (currMode === ERASE_MODE) {
     target.style.backgroundColor = DEFAULT_BOARD_COLOR;
   } else if (currMode === COLOR_MODE) {
