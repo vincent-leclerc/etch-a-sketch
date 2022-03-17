@@ -1,5 +1,5 @@
 // CONSTANTS
-const DEFAULT_SIZE = 16;
+const DEFAULT_BOARD_SIZE = 16;
 const DEFAULT_BOARD_COLOR = '#ffffff';
 const DEFAULT_DRAW_COLOR = '#000000';
 const COLOR_MODE = 'color';
@@ -14,10 +14,17 @@ const $btnRainbow = document.querySelector('.btn--rainbow');
 const $btnErase = document.querySelector('.btn--erase');
 const $btnClear = document.querySelector('.btn--clear');
 const $colorPicker = document.querySelector('.btn--color-picker');
+const $gridSlider = document.querySelector('.settings__size-slider');
+const $sizeValue = document.querySelector('.settings__size-value');
 
-let isDrawing, currMode, currColor;
+// GLOBAL VARIABLES
+let isDrawing, currMode, currColor, currSize;
 
-const createBoard = size => {
+// FUNCTIONS
+const setBoard = size => {
+  $sketchBoard.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  $sketchBoard.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
   for (let i = 1; i <= size * size; i++) {
     const boardEl = document.createElement('div');
     boardEl.classList.add('sketch-board__item');
@@ -29,10 +36,23 @@ const createBoard = size => {
   }
 };
 
-const clearBoard = () =>
-  [...$sketchBoard.children].forEach(
-    child => (child.style.backgroundColor = DEFAULT_BOARD_COLOR)
-  );
+const clearBoard = () => ($sketchBoard.innerHTML = '');
+
+const resetBoard = () => {
+  clearBoard();
+  setBoard(currSize);
+};
+
+const setCurrSize = newSize => (currSize = newSize);
+
+const updateSizeValue = ({ target: { value: size } } = e) => {
+  $sizeValue.textContent = `${size} x ${size}`;
+};
+
+const setBoardSize = ({ target: { value: size } } = e) => {
+  setCurrSize(size);
+  resetBoard();
+};
 
 const removeActiveClass = mode => {
   $settingsButtons.forEach(btn => {
@@ -44,7 +64,6 @@ const removeActiveClass = mode => {
 
 const setMode = mode => {
   currMode = mode;
-
   removeActiveClass(currMode);
 
   if (currMode === COLOR_MODE) $btnColor.classList.add('active');
@@ -85,25 +104,27 @@ const etch = e => {
   }
 };
 
-$btnColor.addEventListener('click', setMode.bind(null, COLOR_MODE));
-$btnRainbow.addEventListener('click', setMode.bind(null, RAINBOW_MODE));
-$btnErase.addEventListener('click', setMode.bind(null, ERASE_MODE));
-$btnClear.addEventListener('click', clearBoard);
-$colorPicker.addEventListener('input', setColor);
-
-window.addEventListener('mouseup', () => {
-  isDrawing = false;
-});
-
-window.addEventListener('mousedown', () => {
-  isDrawing = true;
-});
-
 const init = () => {
   isDrawing = false;
   currMode = COLOR_MODE;
   currColor = DEFAULT_DRAW_COLOR;
+  currSize = DEFAULT_BOARD_SIZE;
 
-  createBoard(DEFAULT_SIZE);
+  setBoard(DEFAULT_BOARD_SIZE);
 };
 init();
+
+// EVENT LISTENERS
+$btnColor.addEventListener('click', setMode.bind(null, COLOR_MODE));
+$btnRainbow.addEventListener('click', setMode.bind(null, RAINBOW_MODE));
+$btnErase.addEventListener('click', setMode.bind(null, ERASE_MODE));
+$btnClear.addEventListener('click', resetBoard);
+$colorPicker.addEventListener('input', setColor);
+$gridSlider.addEventListener('input', updateSizeValue);
+$gridSlider.addEventListener('change', setBoardSize);
+window.addEventListener('mouseup', () => {
+  isDrawing = false;
+});
+window.addEventListener('mousedown', () => {
+  isDrawing = true;
+});
