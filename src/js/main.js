@@ -6,6 +6,7 @@ const COLOR_MODE = 'color';
 const RAINBOW_MODE = 'rainbow';
 const ERASE_MODE = 'eraser';
 const DARKEN_MODE = 'darken';
+const FILL_MODE = 'fill';
 const SHADE_PERCENT = 0.1;
 
 // DOM ELEMENTS
@@ -19,6 +20,7 @@ const $colorPicker = document.querySelector('.btn--color-picker');
 const $gridSlider = document.querySelector('.settings__size-slider');
 const $sizeValue = document.querySelector('.settings__size-value');
 const $btnDarken = document.querySelector('.btn--darken');
+const $btnFill = document.querySelector('.btn--fill');
 
 // GLOBAL VARIABLES
 let isDrawing, currMode, currColor, currSize;
@@ -75,6 +77,7 @@ const setMode = mode => {
   else if (currMode === RAINBOW_MODE) $btnRainbow.classList.add('active');
   else if (currMode === ERASE_MODE) $btnErase.classList.add('active');
   else if (currMode === DARKEN_MODE) $btnDarken.classList.add('active');
+  else if (currMode === FILL_MODE) $btnFill.classList.add('active');
 };
 
 // TODO: Reactivate Color mode after picking color
@@ -97,7 +100,7 @@ const darken = el => {
     el.dataset.shade++;
   }
 
-  /* 
+  /*
     Get initial rgb values into an array =>
     Decrease them based on the amount of shading
   */
@@ -107,6 +110,15 @@ const darken = el => {
     .map(val => val - val * SHADE_PERCENT * el.dataset.shade);
 
   el.style.backgroundColor = `rgb(${newR}, ${newG}, ${newB})`;
+};
+
+const fillBoard = () => {
+  Array.from($sketchBoard.children).forEach(child => {
+    child.removeAttribute('data-shade');
+    child.removeAttribute('data-initial-rgb');
+
+    child.style.backgroundColor = currColor;
+  });
 };
 
 const etch = e => {
@@ -128,6 +140,8 @@ const etch = e => {
     target.style.backgroundColor = currColor;
   } else if (currMode === DARKEN_MODE) {
     darken(target);
+  } else if (currMode === FILL_MODE) {
+    fillBoard();
   }
 };
 
@@ -145,6 +159,7 @@ $btnColor.addEventListener('click', setMode.bind(null, COLOR_MODE));
 $btnRainbow.addEventListener('click', setMode.bind(null, RAINBOW_MODE));
 $btnErase.addEventListener('click', setMode.bind(null, ERASE_MODE));
 $btnDarken.addEventListener('click', setMode.bind(null, DARKEN_MODE));
+$btnFill.addEventListener('click', setMode.bind(null, FILL_MODE));
 $btnClear.addEventListener('click', resetBoard);
 $colorPicker.addEventListener('input', setColor);
 $gridSlider.addEventListener('input', updateSizeValue);
