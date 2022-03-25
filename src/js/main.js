@@ -60,27 +60,27 @@ const setBoardSize = ({ target: { value: size } } = e) => {
   resetBoard();
 };
 
-const removeActiveClass = mode => {
-  $settingsButtons.forEach(btn => {
-    if (btn.dataset.setting !== mode && btn.classList.contains('active')) {
-      btn.classList.remove('active');
-    }
-  });
+const setActiveBtn = mode => {
+  // 1) Remove current active class
+  $settingsButtons.forEach(
+    btn => btn.classList.contains('active') && btn.classList.remove('active')
+  );
+
+  // 2) Add new active class
+  if (mode === COLOR_MODE) $btnColor.classList.add('active');
+  else if (mode === RAINBOW_MODE) $btnRainbow.classList.add('active');
+  else if (mode === ERASE_MODE) $btnErase.classList.add('active');
+  else if (mode === DARKEN_MODE) $btnDarken.classList.add('active');
+  else if (mode === FILL_MODE) $btnFill.classList.add('active');
 };
 
-const setMode = mode => {
-  // TODO: Guard clause if same mode
-  currMode = mode;
-  removeActiveClass(currMode);
+const setMode = newMode => {
+  if (newMode === currMode) return;
 
-  if (currMode === COLOR_MODE) $btnColor.classList.add('active');
-  else if (currMode === RAINBOW_MODE) $btnRainbow.classList.add('active');
-  else if (currMode === ERASE_MODE) $btnErase.classList.add('active');
-  else if (currMode === DARKEN_MODE) $btnDarken.classList.add('active');
-  else if (currMode === FILL_MODE) $btnFill.classList.add('active');
+  currMode = newMode;
+  setActiveBtn(currMode);
 };
 
-// TODO: Reactivate Color mode after picking color
 const setColor = e => (currColor = e.target.value);
 
 const randomRGBValue = () => Math.floor(Math.random() * 256);
