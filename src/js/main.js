@@ -35,8 +35,8 @@ const setBoard = size => {
     boardEl.classList.add('sketch-board__item');
     boardEl.style.backgroundColor = DEFAULT_BOARD_COLOR;
 
-    boardEl.addEventListener('mouseover', etch);
-    boardEl.addEventListener('mousedown', etch);
+    boardEl.addEventListener('mouseover', draw);
+    boardEl.addEventListener('mousedown', draw);
 
     $sketchBoard.append(boardEl);
   }
@@ -121,7 +121,7 @@ const fillBoard = () => {
   });
 };
 
-const etch = e => {
+const draw = e => {
   e.preventDefault();
   const { type, target } = e;
 
