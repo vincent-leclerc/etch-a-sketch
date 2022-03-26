@@ -1,3 +1,5 @@
+'use strict';
+
 // GLOBAL CONSTANTS
 const DEFAULT_BOARD_SIZE = 16;
 const DEFAULT_BOARD_COLOR = '#ffffff';
@@ -50,6 +52,8 @@ const resetBoard = () => {
 };
 
 const setCurrSize = newSize => (currSize = newSize);
+
+const setIsDrawing = bool => (isDrawing = bool);
 
 const updateSizeValue = ({ target: { value: size } } = e) => {
   $sizeValue.textContent = `${size} x ${size}`;
@@ -164,9 +168,5 @@ $btnClear.addEventListener('click', resetBoard);
 $colorPicker.addEventListener('input', setColor);
 $gridSlider.addEventListener('input', updateSizeValue);
 $gridSlider.addEventListener('change', setBoardSize);
-window.addEventListener('mouseup', () => {
-  isDrawing = false;
-});
-window.addEventListener('mousedown', () => {
-  isDrawing = true;
-});
+window.addEventListener('mouseup', () => setIsDrawing(false));
+window.addEventListener('mousedown', () => setIsDrawing(true));
