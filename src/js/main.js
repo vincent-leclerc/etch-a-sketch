@@ -15,11 +15,6 @@ const SHADE_PERCENT = 0.1;
 
 // DOM ELEMENTS
 const $btnClear = document.querySelector('.btn--clear');
-const $btnColor = document.querySelector('.btn--draw');
-const $btnDarken = document.querySelector('.btn--darken');
-const $btnErase = document.querySelector('.btn--erase');
-const $btnFill = document.querySelector('.btn--fill');
-const $btnRainbow = document.querySelector('.btn--rainbow');
 const $colorPicker = document.querySelector('.btn--color-picker');
 const $gridSlider = document.querySelector('.settings__size-slider');
 const $settingsButtons = document.querySelectorAll('.btn--settings');
@@ -73,25 +68,18 @@ $btnClear.addEventListener('click', resetBoard);
 //////////////////////////////
 // MODES
 
+const setActiveBtn = mode => {
+  $settingsButtons.forEach(btn => {
+    btn.classList.contains('active') && btn.classList.remove('active');
+    mode === btn.dataset.setting && btn.classList.add('active');
+  });
+};
+
 const setMode = newMode => {
   if (newMode === currMode) return;
 
   currMode = newMode;
   setActiveBtn(currMode);
-};
-
-const setActiveBtn = mode => {
-  // 1) Remove current active class
-  $settingsButtons.forEach(
-    btn => btn.classList.contains('active') && btn.classList.remove('active')
-  );
-
-  // 2) Add new active class
-  if (mode === COLOR_MODE) $btnColor.classList.add('active');
-  else if (mode === RAINBOW_MODE) $btnRainbow.classList.add('active');
-  else if (mode === ERASE_MODE) $btnErase.classList.add('active');
-  else if (mode === DARKEN_MODE) $btnDarken.classList.add('active');
-  else if (mode === FILL_MODE) $btnFill.classList.add('active');
 };
 
 $settingsButtons.forEach(btn =>
