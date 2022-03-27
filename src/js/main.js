@@ -13,7 +13,7 @@ const SHADE_PERCENT = 0.1;
 
 // DOM ELEMENTS
 const $sketchBoard = document.querySelector('.sketch-board');
-const $settingsButtons = document.querySelectorAll('.btn');
+const $settingsButtons = document.querySelectorAll('.btn--settings');
 const $btnColor = document.querySelector('.btn--draw');
 const $btnRainbow = document.querySelector('.btn--rainbow');
 const $btnErase = document.querySelector('.btn--erase');
@@ -51,16 +51,16 @@ const resetBoard = () => {
   setBoard(currSize);
 };
 
-const setCurrSize = newSize => (currSize = newSize);
-
 const setIsDrawing = bool => (isDrawing = bool);
 
-const updateSizeValue = ({ target: { value: size } } = e) => {
-  $sizeValue.textContent = `${size} x ${size}`;
+const updateSizeValue = newSize => {
+  $sizeValue.textContent = `${newSize} x ${newSize}`;
 };
 
-const setBoardSize = ({ target: { value: size } } = e) => {
-  setCurrSize(size);
+const setCurrSize = newSize => (currSize = newSize);
+
+const setBoardSize = newSize => {
+  setCurrSize(newSize);
   resetBoard();
 };
 
@@ -85,7 +85,7 @@ const setMode = newMode => {
   setActiveBtn(currMode);
 };
 
-const setColor = e => (currColor = e.target.value);
+const setColor = newColor => (currColor = newColor);
 
 const randomRGBValue = () => Math.floor(Math.random() * 256);
 
@@ -127,6 +127,7 @@ const fillBoard = () => {
 
 const draw = e => {
   e.preventDefault();
+
   const { type, target } = e;
 
   if (type === 'mouseover' && !isDrawing) return;
@@ -159,14 +160,12 @@ const init = () => {
 };
 init();
 
-$btnColor.addEventListener('click', setMode.bind(null, COLOR_MODE));
-$btnRainbow.addEventListener('click', setMode.bind(null, RAINBOW_MODE));
-$btnErase.addEventListener('click', setMode.bind(null, ERASE_MODE));
-$btnDarken.addEventListener('click', setMode.bind(null, DARKEN_MODE));
-$btnFill.addEventListener('click', setMode.bind(null, FILL_MODE));
+$settingsButtons.forEach(btn =>
+  btn.addEventListener('click', () => setMode(btn.dataset.setting))
+);
 $btnClear.addEventListener('click', resetBoard);
-$colorPicker.addEventListener('input', setColor);
-$gridSlider.addEventListener('input', updateSizeValue);
-$gridSlider.addEventListener('change', setBoardSize);
+$colorPicker.addEventListener('input', e => setColor(e.target.value));
+$gridSlider.addEventListener('input', e => updateSizeValue(e.target.value));
+$gridSlider.addEventListener('change', e => setBoardSize(e.target.value));
 window.addEventListener('mouseup', () => setIsDrawing(false));
 window.addEventListener('mousedown', () => setIsDrawing(true));
