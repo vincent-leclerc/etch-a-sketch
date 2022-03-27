@@ -1,33 +1,37 @@
 'use strict';
 
 // GLOBAL CONSTANTS
-const DEFAULT_BOARD_SIZE = 16;
 const DEFAULT_BOARD_COLOR = '#ffffff';
+const DEFAULT_BOARD_SIZE = 16;
 const DEFAULT_DRAW_COLOR = '#000000';
+
 const COLOR_MODE = 'color';
-const RAINBOW_MODE = 'rainbow';
-const ERASE_MODE = 'eraser';
 const DARKEN_MODE = 'darken';
+const ERASE_MODE = 'eraser';
 const FILL_MODE = 'fill';
+const RAINBOW_MODE = 'rainbow';
+
 const SHADE_PERCENT = 0.1;
 
 // DOM ELEMENTS
-const $sketchBoard = document.querySelector('.sketch-board');
-const $settingsButtons = document.querySelectorAll('.btn--settings');
-const $btnColor = document.querySelector('.btn--draw');
-const $btnRainbow = document.querySelector('.btn--rainbow');
-const $btnErase = document.querySelector('.btn--erase');
 const $btnClear = document.querySelector('.btn--clear');
+const $btnColor = document.querySelector('.btn--draw');
+const $btnDarken = document.querySelector('.btn--darken');
+const $btnErase = document.querySelector('.btn--erase');
+const $btnFill = document.querySelector('.btn--fill');
+const $btnRainbow = document.querySelector('.btn--rainbow');
 const $colorPicker = document.querySelector('.btn--color-picker');
 const $gridSlider = document.querySelector('.settings__size-slider');
+const $settingsButtons = document.querySelectorAll('.btn--settings');
 const $sizeValue = document.querySelector('.settings__size-value');
-const $btnDarken = document.querySelector('.btn--darken');
-const $btnFill = document.querySelector('.btn--fill');
+const $sketchBoard = document.querySelector('.sketch-board');
 
 // GLOBAL VARIABLES
 let isDrawing, currMode, currColor, currSize;
 
-// FUNCTIONS
+//////////////////////////////
+// BOARD
+
 const setBoard = size => {
   $sketchBoard.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
   $sketchBoard.style.gridTemplateRows = `repeat(${size}, 1fr)`;
@@ -51,8 +55,6 @@ const resetBoard = () => {
   setBoard(currSize);
 };
 
-const setIsDrawing = bool => (isDrawing = bool);
-
 const updateSizeValue = newSize => {
   $sizeValue.textContent = `${newSize} x ${newSize}`;
 };
@@ -62,6 +64,20 @@ const setCurrSize = newSize => (currSize = newSize);
 const setBoardSize = newSize => {
   setCurrSize(newSize);
   resetBoard();
+};
+
+$gridSlider.addEventListener('input', e => updateSizeValue(e.target.value));
+$gridSlider.addEventListener('change', e => setBoardSize(e.target.value));
+$btnClear.addEventListener('click', resetBoard);
+
+//////////////////////////////
+// MODES
+
+const setMode = newMode => {
+  if (newMode === currMode) return;
+
+  currMode = newMode;
+  setActiveBtn(currMode);
 };
 
 const setActiveBtn = mode => {
@@ -78,19 +94,21 @@ const setActiveBtn = mode => {
   else if (mode === FILL_MODE) $btnFill.classList.add('active');
 };
 
-const setMode = newMode => {
-  if (newMode === currMode) return;
+$settingsButtons.forEach(btn =>
+  btn.addEventListener('click', () => setMode(btn.dataset.setting))
+);
 
-  currMode = newMode;
-  setActiveBtn(currMode);
-};
+//////////////////////////////
+// COLORS
 
 const setColor = newColor => (currColor = newColor);
+$colorPicker.addEventListener('input', e => setColor(e.target.value));
 
 const randomRGBValue = () => Math.floor(Math.random() * 256);
 
-const randomColor = () =>
-  `rgb(${randomRGBValue()}, ${randomRGBValue()}, ${randomRGBValue()})`;
+const randomColor = el => {
+  el.style.backgroundColor = `rgb(${randomRGBValue()}, ${randomRGBValue()}, ${randomRGBValue()})`;
+};
 
 const darken = el => {
   if (el.dataset.shade >= 10 || el.style.backgroundColor === 'rgb(0, 0, 0)')
@@ -125,6 +143,11 @@ const fillBoard = () => {
   });
 };
 
+$colorPicker.addEventListener('input', e => setColor(e.target.value));
+
+//////////////////////////////
+// DRAW
+
 const draw = e => {
   e.preventDefault();
 
@@ -138,17 +161,24 @@ const draw = e => {
   }
 
   if (currMode === RAINBOW_MODE) {
-    target.style.backgroundColor = randomColor();
-  } else if (currMode === ERASE_MODE) {
-    target.style.backgroundColor = DEFAULT_BOARD_COLOR;
-  } else if (currMode === COLOR_MODE) {
-    target.style.backgroundColor = currColor;
+    randomColor(target);
   } else if (currMode === DARKEN_MODE) {
     darken(target);
   } else if (currMode === FILL_MODE) {
     fillBoard();
+  } else if (currMode === COLOR_MODE) {
+    target.style.backgroundColor = currColor;
+  } else if (currMode === ERASE_MODE) {
+    target.style.backgroundColor = DEFAULT_BOARD_COLOR;
   }
 };
+
+const setIsDrawing = bool => (isDrawing = bool);
+
+window.addEventListener('mouseup', () => setIsDrawing(false));
+window.addEventListener('mousedown', () => setIsDrawing(true));
+
+//////////////////////////////
 
 const init = () => {
   isDrawing = false;
@@ -159,13 +189,3 @@ const init = () => {
   setBoard(DEFAULT_BOARD_SIZE);
 };
 init();
-
-$settingsButtons.forEach(btn =>
-  btn.addEventListener('click', () => setMode(btn.dataset.setting))
-);
-$btnClear.addEventListener('click', resetBoard);
-$colorPicker.addEventListener('input', e => setColor(e.target.value));
-$gridSlider.addEventListener('input', e => updateSizeValue(e.target.value));
-$gridSlider.addEventListener('change', e => setBoardSize(e.target.value));
-window.addEventListener('mouseup', () => setIsDrawing(false));
-window.addEventListener('mousedown', () => setIsDrawing(true));
