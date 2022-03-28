@@ -4,6 +4,7 @@
 const DEFAULT_BOARD_COLOR = '#ffffff';
 const DEFAULT_BOARD_SIZE = 16;
 const DEFAULT_DRAW_COLOR = '#000000';
+const DEFAULT_BRIGHTNESS = 100;
 
 const COLOR_MODE = 'color';
 const DARKEN_MODE = 'darken';
@@ -11,7 +12,7 @@ const ERASE_MODE = 'eraser';
 const FILL_MODE = 'fill';
 const RAINBOW_MODE = 'rainbow';
 
-const SHADE_PERCENT = 0.1;
+const SHADE_PERCENT = 10;
 
 // DOM ELEMENTS
 const $btnClear = document.querySelector('.btn--clear');
@@ -102,30 +103,17 @@ const darken = el => {
   if (el.dataset.shade >= 10 || el.style.backgroundColor === 'rgb(0, 0, 0)')
     return;
 
-  // Set initial color (before any shading applied) and shade datasets for reference
-  if (!el.dataset.shade) {
-    el.dataset.initialRgb = el.style.backgroundColor;
-    el.dataset.shade = 1;
-  } else {
-    el.dataset.shade++;
-  }
+  !el.dataset.shade ? (el.dataset.shade = 1) : el.dataset.shade++;
 
-  /*
-    Get initial rgb values into an array =>
-    Decrease them based on the amount of shading
-  */
-  const [newR, newG, newB] = el.dataset.initialRgb
-    .replace(/[rgb()]/g, '')
-    .split(',')
-    .map(val => val - val * SHADE_PERCENT * el.dataset.shade);
+  const brightness = DEFAULT_BRIGHTNESS - el.dataset.shade * SHADE_PERCENT;
 
-  el.style.backgroundColor = `rgb(${newR}, ${newG}, ${newB})`;
+  el.style.filter = `brightness(${brightness}%)`;
 };
 
 const fillBoard = () => {
   Array.from($sketchBoard.children).forEach(child => {
     child.removeAttribute('data-shade');
-    child.removeAttribute('data-initial-rgb');
+    child.style.filter = '';
 
     child.style.backgroundColor = currColor;
   });
@@ -145,7 +133,7 @@ const draw = e => {
 
   if (currMode !== DARKEN_MODE) {
     target.removeAttribute('data-shade');
-    target.removeAttribute('data-initial-rgb');
+    target.style.filter = '';
   }
 
   if (currMode === RAINBOW_MODE) {
