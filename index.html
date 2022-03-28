@@ -23,11 +23,30 @@
       <h1 class="header__title">Etch-a-Sketch</h1>
     </header>
     <section class="section-board">
-      <menu class="menu">
-        <button class="btn">Draw Mode</button>
-        <button class="btn">Eraser</button>
-        <button class="btn">Clear</button>
-      </menu>
+      <div class="settings">
+        <input type="color" class="btn btn--color-picker" />
+        <button data-setting="color" class="btn btn--settings active">
+          Color
+        </button>
+        <button data-setting="rainbow" class="btn btn--settings">
+          Rainbow
+        </button>
+        <button data-setting="darken" class="btn btn--settings">Darken</button>
+        <button data-setting="fill" class="btn btn--settings">Fill</button>
+        <button data-setting="eraser" class="btn btn--settings">Eraser</button>
+        <button class="btn btn--clear">Clear</button>
+
+        <div class="settings_slider">
+          <div class="settings__size-value">16 x 16</div>
+          <input
+            type="range"
+            class="settings__size-slider"
+            min="1"
+            max="64"
+            value="16"
+          />
+        </div>
+      </div>
       <div class="sketch-board"></div>
     </section>
   </body>

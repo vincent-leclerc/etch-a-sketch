@@ -1,0 +1,17 @@
+.settings {
+  display: flex;
+  flex-direction: column;
+  justify-self: end;
+  align-self: center;
+  gap: 2rem;
+  color: $color-grey-dark;
+
+  &__size-value {
+    user-select: none;
+    text-align: center;
+  }
+
+  &__size-slider {
+    width: 100%;
+  }
+}
