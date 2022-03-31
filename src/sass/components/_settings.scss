@@ -5,4 +5,8 @@
   flex-direction: column;
   gap: 2.4rem;
   color: $color-grey-dark;
+
+  & > * {
+    width: 17rem;
+  }
 }
