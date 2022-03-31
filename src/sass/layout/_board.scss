@@ -1,14 +1,19 @@
 .section-board {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
+  grid-column: center-start / center-end;
 
-.sketch-board {
   display: grid;
-  justify-content: center;
-  justify-self: center;
-  width: 50rem;
-  height: 50rem;
-  box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.25);
-  border-radius: 0.2rem;
+  grid-template-columns: minmax(6rem, 1fr) max-content minmax(6rem, 1fr);
+  column-gap: 9.6rem;
+
+  .sketch-board {
+    grid-column: 3 / -3;
+
+    display: grid;
+    justify-content: center;
+    justify-self: center;
+    height: 65rem;
+    width: 65rem;
+    box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.25);
+    border-radius: 0.2rem;
+  }
 }

@@ -17,9 +17,9 @@ const SHADE_PERCENT = 10;
 // DOM ELEMENTS
 const $btnClear = document.querySelector('.btn--clear');
 const $colorPicker = document.querySelector('.btn--color-picker');
-const $gridSlider = document.querySelector('.settings__size-slider');
+const $gridSlider = document.querySelector('.slider__input');
 const $settingsButtons = document.querySelectorAll('.btn--settings');
-const $sizeValue = document.querySelector('.settings__size-value');
+const $sizeValue = document.querySelector('.slider__size-value');
 const $sketchBoard = document.querySelector('.sketch-board');
 
 // GLOBAL VARIABLES

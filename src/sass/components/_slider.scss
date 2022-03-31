@@ -1,0 +1,10 @@
+.slider {
+  display: flex;
+  flex-direction: column;
+  width: 17rem;
+
+  &__size-value {
+    user-select: none;
+    text-align: center;
+  }
+}

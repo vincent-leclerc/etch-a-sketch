@@ -18,7 +18,7 @@
     <script type="module" src="./src/js/main.js" defer></script>
     <title>Etch-a-Sketch</title>
   </head>
-  <body>
+  <body class="main-grid">
     <header class="header">
       <h1 class="header__title">Etch-a-Sketch</h1>
     </header>
@@ -35,12 +35,11 @@
         <button data-setting="fill" class="btn btn--settings">Fill</button>
         <button data-setting="eraser" class="btn btn--settings">Eraser</button>
         <button class="btn btn--clear">Clear</button>
-
-        <div class="settings_slider">
-          <div class="settings__size-value">16 x 16</div>
+        <div class="slider">
+          <div class="slider__size-value">16 x 16</div>
           <input
             type="range"
-            class="settings__size-slider"
+            class="slider__input"
             min="1"
             max="64"
             value="16"

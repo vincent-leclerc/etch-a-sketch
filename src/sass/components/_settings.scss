@@ -1,17 +1,8 @@
 .settings {
+  align-self: center;
+
   display: flex;
   flex-direction: column;
-  justify-self: end;
-  align-self: center;
-  gap: 2rem;
+  gap: 2.4rem;
   color: $color-grey-dark;
-
-  &__size-value {
-    user-select: none;
-    text-align: center;
-  }
-
-  &__size-slider {
-    width: 100%;
-  }
 }
