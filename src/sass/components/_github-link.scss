@@ -1,0 +1,28 @@
+.github-link {
+  display: flex;
+  align-items: end;
+
+  &:link,
+  &:visited {
+    text-decoration: none;
+    color: currentColor;
+  }
+
+  &:hover {
+    color: #000;
+  }
+
+  &:hover &__logo {
+    fill: currentColor;
+  }
+
+  &__name {
+    margin-right: 0.8rem;
+  }
+
+  &__logo {
+    height: 3.2rem;
+    width: 3.2rem;
+    fill: currentColor;
+  }
+}
