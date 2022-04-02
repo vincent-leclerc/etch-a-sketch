@@ -7,4 +7,6 @@
     )
     [center-end]
     minmax(6rem, 1fr) [full-end];
+  grid-template-rows: 1fr max-content 1fr;
+  row-gap: 9.6rem;
 }
