@@ -17,9 +17,9 @@ const SHADE_PERCENT = 10;
 // DOM ELEMENTS
 const $btnClear = document.querySelector('.btn--clear');
 const $colorPicker = document.querySelector('.btn--color-picker');
-const $gridSlider = document.querySelector('.settings__size-slider');
+const $gridSlider = document.querySelector('.slider__range');
 const $settingsButtons = document.querySelectorAll('.btn--settings');
-const $sizeValue = document.querySelector('.settings__size-value');
+const $sizeValue = document.querySelector('.slider__size-value');
 const $sketchBoard = document.querySelector('.sketch-board');
 
 // GLOBAL VARIABLES
@@ -51,10 +51,6 @@ const resetBoard = () => {
   setBoard(currSize);
 };
 
-const updateSizeValue = newSize => {
-  $sizeValue.textContent = `${newSize} x ${newSize}`;
-};
-
 const setCurrSize = newSize => (currSize = newSize);
 
 const setBoardSize = newSize => {
@@ -62,7 +58,17 @@ const setBoardSize = newSize => {
   resetBoard();
 };
 
-$gridSlider.addEventListener('input', e => updateSizeValue(e.target.value));
+const sliderInputHandler = target => {
+  const { min, value, max } = target;
+
+  // Update display of numbers of grid cells
+  $sizeValue.textContent = `${value} x ${value}`;
+
+  // Handle how much of the slider is filled (in percentage)
+  target.style.backgroundSize = `${((value - min) * 100) / (max - min)}%`;
+};
+
+$gridSlider.addEventListener('input', e => sliderInputHandler(e.target));
 $gridSlider.addEventListener('change', e => setBoardSize(e.target.value));
 $btnClear.addEventListener('click', resetBoard);
 

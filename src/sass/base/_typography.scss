@@ -1,13 +1,21 @@
 body {
   font-family: $font-primary;
-  font-size: $defaut-font-size;
+  font-size: $font-size-default;
 }
 
-.header {
-  &__title {
-    font-family: $font-secondary;
-    font-size: 6rem;
-    letter-spacing: 0.8rem;
-    color: $color-grey-dark;
+.heading-1 {
+  font-family: $font-secondary;
+  font-size: $font-size-big;
+  letter-spacing: 0.8rem;
+  color: $color-grey-dark;
+
+  @media only screen and (max-width: 75em) {
+    font-size: 5rem;
+    letter-spacing: 0.6rem;
+  }
+
+  @media only screen and (max-width: 32em) {
+    font-size: 3rem;
+    letter-spacing: 0.5rem;
   }
 }

@@ -4,17 +4,16 @@
 
 // Base
 @import 'base/base';
-@import 'base/reset';
 @import 'base/typography';
 
 // Components
 @import 'components/button';
+@import 'components/github-link';
 @import 'components/settings';
+@import 'components/slider';
 
 // Layout
 @import 'layout/grid';
 @import 'layout/header';
 @import 'layout/board';
-
-// Pages
-@import 'pages/home';
+@import 'layout/footer';

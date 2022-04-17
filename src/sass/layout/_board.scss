@@ -1,14 +1,47 @@
 .section-board {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
+  grid-column: center-start / center-end;
 
-.sketch-board {
   display: grid;
-  justify-content: center;
-  justify-self: center;
-  width: 50rem;
-  height: 50rem;
-  box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.25);
-  border-radius: 0.2rem;
+  grid-template-columns: minmax(6rem, 1fr) max-content minmax(6rem, 1fr);
+  column-gap: 9.6rem;
+
+  @media only screen and (max-width: 75em) {
+    grid-template-columns: max-content auto;
+  }
+
+  @media only screen and (max-width: 65em) {
+    column-gap: 5.6rem;
+  }
+
+  @media only screen and (max-width: 50em) {
+    grid-template-columns: auto;
+    row-gap: 3.6rem;
+  }
+
+  .sketch-board {
+    grid-column: 2;
+
+    display: grid;
+    height: 65rem;
+    width: 65rem;
+    box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.25);
+    border-radius: 0.2rem;
+
+    @media only screen and (max-width: 75em) {
+      grid-column: 2;
+    }
+
+    @media only screen and (max-width: 65em) {
+      height: 54rem;
+      width: 54rem;
+    }
+
+    @media only screen and (max-width: 50em) {
+      grid-column: 1;
+      justify-self: center;
+
+      height: 90vw;
+      width: 90vw;
+    }
+  }
 }

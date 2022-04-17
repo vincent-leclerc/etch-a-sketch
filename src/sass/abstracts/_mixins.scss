@@ -1,0 +1,15 @@
+@mixin slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  background: $color-grey-dark;
+  height: 2rem;
+  width: 1.2rem;
+  border-radius: 3px;
+}
+
+@mixin slider-track {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
