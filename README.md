@@ -1,6 +1,7 @@
 # Etch-a-Sketch
 
 A pixel sketch app, for The Odin Project
+[Live App](https://vleclerc-esketch.netlify.app/)
 
 ## Functionalities:
 
