@@ -6,4 +6,12 @@ header {
   .heading-1 {
     text-align: center;
   }
+
+  @media only screen and (max-width: 75em) {
+    padding: 5rem 0;
+  }
+
+  @media only screen and (max-width: 32em) {
+    padding: 3rem 0;
+  }
 }

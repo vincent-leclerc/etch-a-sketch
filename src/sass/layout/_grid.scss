@@ -10,6 +10,10 @@
   grid-template-rows: 1fr max-content 1fr;
   row-gap: 9.6rem;
 
+  @media only screen and (max-width: 75em) {
+    row-gap: 3.6rem;
+  }
+
   @media only screen and (max-width: 50em) {
     grid-template-columns:
       [full-start] minmax(1rem, 1fr) [center-start] repeat(
@@ -18,6 +22,5 @@
       )
       [center-end]
       minmax(1rem, 1fr) [full-end];
-    row-gap: 3.6rem;
   }
 }
